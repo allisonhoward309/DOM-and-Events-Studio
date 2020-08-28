@@ -1,15 +1,18 @@
 // Write your JavaScript code here.
 // Remember to pay attention to page loading!
-function formatNumber(num) {
-    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-  }
-
-  
+function formatNumber(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
  window.addEventListener("load", function() {
-    console.log('window loaded')
+    console.log('window loaded');
     let flightStatus = document.getElementById("flightStatus");
-    let rocket = document.getElementById("rocket")
+    let rocket = document.getElementById("rocket");
+    let height = document.getElementById("spaceShuttleHeight");
+    rocket.style.position = 'absolute';
+    rocket.style.bottom = '0';
+    rocket.style.left = '0';
+
 
 
     let takeOff = document.getElementById("takeoff");
@@ -19,8 +22,8 @@ function formatNumber(num) {
         flightStatus.innerHTML = 'Shuttle in flight';
         let color = document.getElementById("shuttleBackground");
         color.style.backgroundColor = "blue";
-        let height = document.getElementById("spaceShuttleHeight");
-        height.innerHTML = '10,000';
+        height.innerHTML = '10000';
+        rocket.style.bottom = '100px';
         }
       });
 
@@ -30,9 +33,9 @@ function formatNumber(num) {
           flightStatus.innerHTML = 'The shuttle has landed.';
           let returnColor = document.getElementById("shuttleBackground");
           returnColor.style.backgroundColor = "green";
-          let land = document.getElementById("spaceShuttleHeight");
-          land.innerHTML = '0';
-        });
+          height.innerHTML = '0';
+          rocket.style.bottom = '0';      
+          });
 
         let abort = document.getElementById("missionAbort");
         abort.addEventListener("click", function (event) {
@@ -41,23 +44,37 @@ function formatNumber(num) {
             flightStatus.innerHTML = 'Mission aborted.';
             let abortColor = document.getElementById("shuttleBackground");
             abortColor.style.backgroundColor = "green";
-            let abortHeight = document.getElementById("spaceShuttleHeight");
-            abortHeight.innerHTML = formatNumber(0);
+            height.innerHTML = '0';
+            rocket.style.bottom = '0';
+            rocket.style.left = '0';
             }
           });
 
+         
           let up = document.getElementById("up");
-          window.addEventListener("click", function() {
-            let rocket = document.getElementById("rocket");
-               rocket.style.bottom 
+          up.addEventListener("click", function() {
+            let topPosition = document.getElementById("shuttleBackground");
+               rocket.style.bottom = parseInt(rocket.style.bottom) + 10 + 'px';
+               height.innerHTML = Number(height.innerHTML) + 1000;
             });
 
             let down = document.getElementById("down");
             down.addEventListener("click", function() {
-              alert('dog')
-              let rocket = document.getElementById("rocket");
-              position = parseInt(rocket.style.bottom) - 10 + 'px';
-              rocket.style.bottom = '0px'
+              if (rocket.style.bottom <= '0px') {
+                 rocket.style.bottom = parseInt(rocket.style.bottom) - 10 + 'px';
+                 height.innerHTML = Number(height.innerHTML) - 1000;
+              }
               });
+            
+              let left = document.getElementById("left");
+              left.addEventListener("click", function() {
+                   rocket.style.left = parseInt(rocket.style.left) + 10 + 'px';
+                });
+                let right = document.getElementById("right");
+                right.addEventListener("click", function() {
+                rocket.style.left = parseInt(rocket.style.left) - 10 + 'px';
+                  });
 
+
+  height.innerHTML = formatNumber(height.innerHTML);
   });
